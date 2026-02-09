@@ -10,6 +10,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import CategorySerializer, TaskSerializer
 
+# this project is done in different apps it is my first project with different app
+
 @api_view(['GET', 'POST'])
 def TaskListAPI(request):
     if request.method == 'GET':

@@ -92,7 +92,7 @@ def taskdetails(request):
 
 @login_required(login_url='login')
 def taskdelete(request, id):
-    task = Task.objects.get(id= id)
+    task = Task.objects.get(id=id)
     task.delete()
     return redirect('taskdetails')
 

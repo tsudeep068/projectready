@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | QuickShop</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --dark: #000000;
+            --bg: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: var(--dark);
+            color: white;
+            position: fixed;
+            padding: 30px 20px;
+        }
+
+        .sidebar h2 {
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: var(--primary);
+        }
+
+        .sidebar a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            padding: 40px;
+        }
+
+        .header-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .header-box h1 {
+            font-weight: 900;
+            margin: 0;
+        }
+
+        /* --- Stat Cards --- */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 3px solid #000;
+            box-shadow: 8px 8px 0px #000;
+            padding: 25px;
+            transition: 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 11px 11px 0px var(--primary);
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: #64748b;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--dark);
+        }
+
+        /* --- Recent Activity Table --- */
+        .activity-card {
+            background: white;
+            border: 3px solid #000;
+            padding: 30px;
+        }
+
+        .activity-card h2 {
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .btn-new {
+            background: var(--primary);
+            color: white;
+            border: 2px solid #000;
+            padding: 10px 20px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 4px 4px 0px #000;
+        }
+
+        .btn-new:hover {
+            background: #000;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>QS ADMIN</h2>
+        <a href="#" class="active">Dashboard</a>
+        <a href="{% url 'taskdetails' %}">Manage Tasks</a>
+        <a href="{% url 'create_category' %}">Categories</a>
+        <a href="/" style="margin-top: 50px; opacity: 0.7;">View Store</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header-box">
+            <div>
+                <p class="text-muted m-0">Welcome back,</p>
+                <h1>{{ admin_name }}</h1>
+            </div>
+            <a href="{% url 'create_task' %}" class="btn-new">+ New Task</a>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <h3>Total Tasks</h3>
+                <div class="number">{{ total }}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Categories</h3>
+                <div class="number">{{ total_categories }}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Admin Status</h3>
+                <div class="number" style="font-size: 1.5rem; color: #10b981;">Active</div>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <h2>Recent Tasks</h2>
+            <table class="table">
+                <thead>
+                    <tr class="text-muted small">
+                        <th>TASK TITLE</th>
+                        <th>CATEGORY</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in recent_tasks %}
+                    <tr>
+                        <td class="fw-bold">{{ task.title }}</td>
+                        <td><span class="badge bg-light text-dark border">{{ task.category.name }}</span></td>
+                        <td><a href="{% url 'taskupdate' task.id %}" class="text-primary text-decoration-none fw-bold">Edit</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center py-4">No recent tasks found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

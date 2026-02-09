@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from .serializers import CategorySerializer, TaskSerializer
 
 # this project is done in different apps it is my first project with different app
+# i have created a task management app with api and admin dashboard
 
 @api_view(['GET', 'POST'])
 def TaskListAPI(request):
